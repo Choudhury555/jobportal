@@ -82,7 +82,7 @@ export const login = async (req,res)=>{
             userId:user._id
         }
 
-        const token = await jwt.sign(tokenData,process.env.SECRET_KRY,{expiresIn:'1d'});
+        const token = await jwt.sign(tokenData,process.env.SECRET_KEY,{expiresIn:'1d'});
 
         const userReturndata = {
             _id:user._id,
@@ -122,18 +122,9 @@ export const updateProfile = async(req,res)=>{
     try {
         const {fullname,email,phoneNumber,bio,skills} = req.body;
 
-        if(!fullname || !email || !phoneNumber || !bio || !skills){
-            return res.status(400).json({
-                message:"Something is Missing",
-                success:false
-            })
-        }
-        
-        const skillsArray = skills.split(",");
+        const currUserId = req.id;//this will come from authentication middleWare
 
-        const userId = req.id;//this will come from authentication middleWare
-
-        let user = await User.findById(userId);
+        let user = await User.findById(currUserId);
 
         if(!user){
             return res.status(400).json({
@@ -142,11 +133,14 @@ export const updateProfile = async(req,res)=>{
             })
         }
 
-        user.fullname = fullname;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.profile.bio = bio;
-        user.profile.skills = skillsArray;
+        if(fullname) user.fullname = fullname;
+        if(email) user.email = email;
+        if(phoneNumber) user.phoneNumber = phoneNumber;
+        if(bio) user.profile.bio = bio;
+        if(skills){
+            const skillsArray = skills.split(",");
+            user.profile.skills = skillsArray;
+        }
         
         await user.save();
         
