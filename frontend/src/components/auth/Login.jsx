@@ -4,7 +4,10 @@ import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
 import { Button } from '../ui/button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { USER_API_END_POINT } from '@/utils/constant'
+import { toast } from 'sonner'
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -13,13 +16,31 @@ const Login = () => {
     role: "",
   });
 
+  const navigate = useNavigate();
+
   const inputChangeHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value })
   }
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(input);
+    // console.log(input);
+
+    try {
+      const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        withCredentials: true
+      });
+      if (res.data.success) {
+        navigate("/");
+        toast.success(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
   }
 
   return (
@@ -43,7 +64,7 @@ const Login = () => {
                 <Label>Student</Label>
               </div>
               <div className="flex items-center space-x-2">
-              <Input type="radio" name="role" value="recruiter" checked={input.role==='recruiter'} onChange={inputChangeHandler} className="cursor-pointer" />
+                <Input type="radio" name="role" value="recruiter" checked={input.role === 'recruiter'} onChange={inputChangeHandler} className="cursor-pointer" />
                 <Label>Recruiter</Label>
               </div>
             </RadioGroup>
