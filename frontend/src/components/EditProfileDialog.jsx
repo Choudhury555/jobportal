@@ -105,7 +105,7 @@ const EditProfileDialog = ({ open, setOpen }) => {
                             </div>
                             <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="file" className="text-right">Resume</Label>
-                                <Input id="file" name="file" type="file" accept="application/pdf" className="col-span-3" onChange={changeFileHandler}/>
+                                <Input id="file" name="file" type="file" accept="application/pdf" className="col-span-3" onChange={changeFileHandler} required/>
                             </div>
                         </div>
                         <DialogFooter>
