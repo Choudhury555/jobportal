@@ -7,6 +7,11 @@ import cloudinary from "../utils/cloudinary.js";
 export const register = async(req,res)=>{
     try {
         const {fullname,email,phoneNumber,password,role} = req.body;
+        
+        //cloudinary setup for profile pic upload
+        const file = req.file;
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
         if(!fullname || !email || !phoneNumber || !password || !role){
             return res.status(400).json({
@@ -30,7 +35,10 @@ export const register = async(req,res)=>{
             email,
             phoneNumber,
             password:hashPassword,
-            role
+            role,
+            profile:{
+                profilePhoto:cloudResponse.secure_url
+            }
         });
 
         return res.status(201).json({
