@@ -9,11 +9,19 @@ const Job = ({job}) => {
 
     const navigate = useNavigate();
 
+    const daysAgoTimeFunction = (createDate)=>{
+        const createdAt = new Date(createDate);
+        const currentDate = new Date();
+        const timeDifference = currentDate - createdAt;
+
+        return Math.floor((timeDifference)/(1000*60*60*24));
+    }
+
     return (
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
 
             <div className='flex items-center justify-between'>
-                <p className='text-sm text-gray-500'>2 days ago</p>
+                <p className='text-sm text-gray-500'>{daysAgoTimeFunction(job?.createdAt) === 0 ? "Today" : daysAgoTimeFunction(job?.createdAt)} day(s) ago</p>
                 <Button variant="outline" className="rounded-full" size="icon"><Bookmark /></Button>
             </div>
 
