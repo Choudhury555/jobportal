@@ -53,7 +53,7 @@ export const getCompany = async (req,res)=>{
         return res.status(200).json({
             message:"Here is the list of companies you registered",
             companies,
-            success:false
+            success:true
         })
         
     } catch (error) {
