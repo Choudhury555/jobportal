@@ -5,8 +5,11 @@ import { Popover, PopoverContent } from '../ui/popover'
 import { Edit2, MoreHorizontal } from 'lucide-react'
 import { PopoverTrigger } from '@radix-ui/react-popover'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const CompaniesTable = () => {
+
+    const navigate = useNavigate();
 
     const { companies , searchCompanyByText } = useSelector(store => store.company);
 
@@ -51,7 +54,7 @@ const CompaniesTable = () => {
                                         <Popover>
                                             <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
                                             <PopoverContent className="w-32">
-                                                <div className='flex items-center gap-2 w-fit cursor-pointer'>
+                                                <div onClick={()=>navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
                                                     <Edit2 className='w-4' />
                                                     <span>Edit</span>
                                                 </div>

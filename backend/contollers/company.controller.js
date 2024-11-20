@@ -65,7 +65,7 @@ export const getCompany = async (req,res)=>{
 export const getCompanyById = async (req,res) =>{
     try {
         const companyId = req.params.id;
-        const company = await Company.find({_id:companyId});
+        const company = await Company.findById(companyId);//"findById()" will return a single object and "find()" will return an array of object
 
         if(!company){
             return res.status(404).json({
