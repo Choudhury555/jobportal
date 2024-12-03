@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 
 const Jobs = () => {
-  // useGetAllJobs();
+  useGetAllJobs();
   const {allJobs,serachedJobText} = useSelector(store=>store.job);
   const [filterJobs,setFilterJobs] = useState(allJobs);
   // console.log(serachedJobText);
