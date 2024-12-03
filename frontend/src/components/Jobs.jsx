@@ -4,6 +4,7 @@ import FilterCard from './FilterCard'
 import Job from './Job';
 import { useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
+import { animate, motion } from 'framer-motion';
 
 const Jobs = () => {
   useGetAllJobs();
@@ -42,9 +43,14 @@ const Jobs = () => {
                 <div className='grid grid-cols-3 gap-4'>
                   {
                     filterJobs.map((job) => (
-                      <div>
+                      <motion.div
+                        initial={{opacity:0,x:100}}
+                        animate={{opacity:1,x:0}}
+                        exit={{opacity:0,x:-100}}
+                        transition={{duration:0.4}}
+                      >
                         <Job key={job._id} job={job}/>
-                      </div>
+                      </motion.div>
                     ))
                   }
                 </div>
