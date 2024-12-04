@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
@@ -24,7 +24,7 @@ const Signup = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loading } = useSelector(store => store.auth);
+    const { loading,user } = useSelector(store => store.auth);
 
     const inputChangeHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })
@@ -67,6 +67,12 @@ const Signup = () => {
             dispatch(setLoading(false));
         }
     }
+
+    useEffect(()=>{
+        if(user){
+            navigate("/");
+        }
+    },[]);
 
     return (
         <div>
