@@ -7,6 +7,7 @@ import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js"
 import jobRoute from "./routes/job.route.js"
 import applicationRoute from "./routes/application.route.js"
+import path from "path"
 
 dotenv.config({});
 
@@ -35,6 +36,16 @@ app.get("/home",(req,res)=>{
         mssage:"Message from home path backend"
     });
 })
+
+//deployment part started
+const dirname = path.resolve();
+app.use(express.static(path.join(dirname,"/frontend/dist")));//dist will be formed after "npm run build"
+
+//this will serve the "frontend files" from "backend"
+app.get("*",(req,res)=>{
+    res.sendFile(path.resolve(dirname,"frontend","dist","index.html"));//inside this "dist" folder(above mentioned) "index.html"(root file for frontend) is there
+})
+//deployment part ended
 
 const PORT = process.env.PORT || 2000;
 app.listen(PORT, () => {
