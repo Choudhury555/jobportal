@@ -5,13 +5,15 @@ import Job from './Job';
 import { useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { animate, motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Jobs = () => {
   useGetAllJobs();
   const {allJobs,serachedJobText} = useSelector(store=>store.job);
   const [filterJobs,setFilterJobs] = useState(allJobs);
   // console.log(serachedJobText);
-  
+  const {user} = useSelector(store=>store.auth);
+  const navigate = useNavigate();
 
   useEffect(()=>{
     if(serachedJobText){
@@ -28,6 +30,13 @@ const Jobs = () => {
       setFilterJobs(allJobs);
     }
   },[serachedJobText,allJobs])
+
+
+  useEffect(()=>{
+    if(!user){
+      navigate("/login");
+    }
+  },[])
 
   return (
     <div>

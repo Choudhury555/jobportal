@@ -15,6 +15,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(()=>{
+    if(!user){
+      navigate("/login")
+    }
     //after login our code will come to this component <Home /> and here it will run this "useEffect" first(if role is 'recruiter' then it will navigate to '/admin/companies')
     if(user?.role === 'recruiter'){
       navigate("/admin/companies");

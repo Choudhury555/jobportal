@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { setSerachedJobText } from '@/redux/jobSlice';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 
 const Browse = () => {
@@ -12,10 +13,15 @@ const Browse = () => {
     useGetAllJobs();
 
     const {allJobs} = useSelector(store=>store.job);
+    const {user} = useSelector(store=>store.auth);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     //this below useEffect I am using for cleanup function (when we will leave this component this cleanup function will execute)
     useEffect(()=>{
+        if(!user){
+            navigate("/login");
+        }
         return () =>{
             dispatch(setSerachedJobText(""));
         }
