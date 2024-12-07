@@ -24,7 +24,7 @@ const Navbar = () => {
 
       if(res.data.success){
         dispatch(setUser(null));
-        navigate("/");
+        navigate("/login");
         toast.success(res.data.message);
       }
     } catch (error) {
@@ -51,9 +51,9 @@ const Navbar = () => {
               :
               (
                 <>
-                  <li><Link to={"/"}>Home</Link></li>
-                  <li><Link to={"/jobs"}>Jobs</Link></li>
-                  <li><Link to={"/browse"}>Browse</Link></li>
+                  <li><Link to={"/"}>{user ? "Home" : ""}</Link></li>
+                  <li><Link to={"/jobs"}>{user ? "Jobs" : ""}</Link></li>
+                  <li><Link to={"/browse"}>{user ? "Browse" : ""}</Link></li>
                 </>
               )  
             }
